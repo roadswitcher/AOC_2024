@@ -6,12 +6,22 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <iterator>
 
 using input_report = std::vector<int>;
 
 bool report_is_safe(input_report report) {
+
+  // std::copy(report.begin(), report.end(), std::ostream_iterator<int>(std::cout, " "));
+  // std::cout << "\n";
+
   // Heard about this on the ADSP podcast -- finally, an excuse to use it?
   std::adjacent_difference(report.begin(), report.end(), report.begin());
+  report.erase(report.begin()); // drop the first element
+  
+  // std::copy(report.begin(), report.end(), std::ostream_iterator<int>(std::cout, " "));
+  // std::cout << "\n";
+  
   // If any difference is zero, fail
   if (std::find(report.begin(), report.end(), 0) != report.end())
     return false;
@@ -34,27 +44,24 @@ bool report_is_safe(input_report report) {
 
 void process_reports(std::string filename) {
   std::ifstream fs(filename);
-  input_report test_report;
-  std::string line;
-  int a, b, c, d, e;
+  std::cout << "Opened " << filename <<"\n";
 
+  std::string line;
   int num_safe = 0;
 
   while (std::getline(fs, line)) {
     std::istringstream values(line);
-    std::cout << line << "\n";
-    values >> a >> b >> c >> d >> e;
-    test_report.push_back(a);
-    test_report.push_back(b);
-    test_report.push_back(c);
-    test_report.push_back(d);
-    test_report.push_back(e);
+    int num;
+    input_report test_report;
+    while(values>>num) {
+      test_report.push_back(num);
+    }
 
     if (report_is_safe(test_report))
       num_safe += 1;
   }
 
-  std::cout << "Number of safe reports: " << num_safe << "\n";
+  std::cout << "Part 1: Number of safe reports: " << num_safe << "\n";
 }
 
 int main() {
