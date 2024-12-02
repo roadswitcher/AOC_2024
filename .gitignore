@@ -1,6 +1,9 @@
 # AOC Specifics
 input.txt
 
+# VS Code
+.vscode/
+
 # Prerequisites
 *.d
 
