@@ -56,27 +56,7 @@ void process_reports(std::string filename) {
 
   std::string line;
   int num_safe = 0;
-
-  while (std::getline(fs, line)) {
-    std::istringstream values(line);
-    int num;
-    input_report test_report;
-    while (values >> num) {
-      test_report.push_back(num);
-    }
-
-    if (report_is_safe(test_report)) {
-      num_safe += 1;
-    }
-  }
-  std::cout << "Part 1: Number of safe reports: " << num_safe << "\n";
-}
-
-void process_reports_part_II(std::string filename) {
-  std::ifstream fs(filename);
-
-  std::string line;
-  int num_safe = 0;
+  int made_safe_by_damping = 0;
 
   while (std::getline(fs, line)) {
     std::istringstream values(line);
@@ -89,10 +69,12 @@ void process_reports_part_II(std::string filename) {
     if (report_is_safe(test_report)) {
       num_safe += 1;
     } else if (problem_dampener(test_report)) {
-      num_safe += 1;
+      made_safe_by_damping += 1;
     }
   }
-  std::cout << "Part 2: Number of safe reports: " << num_safe << "\n";
+  std::cout << "Part 1: Number of safe reports: " << num_safe << "\n";
+  std::cout << "Part 2: Number of safe reports: "
+            << num_safe + made_safe_by_damping << "\n";
 }
 
 int main() {
@@ -100,7 +82,6 @@ int main() {
   // std::string fname = "test_input.txt";
 
   process_reports(fname);
-  process_reports_part_II(fname);
 
   return 0;
 }
