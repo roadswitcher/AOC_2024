@@ -36,9 +36,9 @@ bool report_is_safe(input_report report) {
 
 bool problem_dampener(input_report report) {
   // If report can be rendered safe removing a single element, it's safe.
-  for (int idx = 0; idx < report.size(); idx++) {
+  for (size_t idx = 0; idx < report.size(); idx++) {
     input_report tmp_report;
-    for (int j = 0; j < report.size(); j++) {
+    for (size_t j = 0; j < report.size(); j++) {
       if (j != idx)
         tmp_report.push_back(report[j]);
     }
