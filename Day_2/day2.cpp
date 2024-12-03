@@ -19,15 +19,9 @@ bool report_is_safe(input_report report) {
   if (std::find(report.begin(), report.end(), 0) != report.end())
     return false;
 
-  // Are all the differences in the range of 1 to 3?
+  // Are all the differences in the range of 1 to 3?  Do all elements have the same sign? ( trending DOWN or UP? )
   for (int num : report) {
-    if (abs(num) < 1 || abs(num) > 3)
-      return false;
-  }
-
-  // Are all the differences the same sign?
-  for (int num : report) {
-    if ((report[0] > 0 && num <= 0) || (report[0] < 0 && num >= 0)) {
+    if ((abs(num) < 1 || abs(num) > 3) || (report[0] > 0 && num <= 0) || (report[0] < 0 && num >= 0) ) {
       return false;
     }
   }
