@@ -1,11 +1,9 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
-#include <iterator>
 #include <numeric>
 #include <sstream>
 #include <string>
-#include <unordered_map>
 #include <vector>
 
 using input_report = std::vector<int>;
