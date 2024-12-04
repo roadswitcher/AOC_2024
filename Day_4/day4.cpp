@@ -18,8 +18,7 @@ std::vector<std::vector<char>> load_puzzle(std::string filename) {
     for (auto i = 0; i<line.length(); i++){
       row.push_back(line[i]);
     }
-    std::cout << row << std::endl;
-
+    puzzle.push_back(row);
     height++;
   }
 
@@ -28,12 +27,20 @@ std::vector<std::vector<char>> load_puzzle(std::string filename) {
   return puzzle;
 }
 
+void print_puzzle(std::vector<std::vector<char>> puzzle){
+  for (size_t row=0; row<puzzle.size(); row++){
+    for (size_t col=0; col<puzzle[row].size(); col++){
+      std::cout << puzzle[row][col];
+    }
+    std::cout << std::endl;
+  }
+}
 
 int main() {
   std::string fname = "test_input.txt";
 
-  auto puzzle = load_puzzle(fname);
-
+  std::vector<std::vector<char>> puzzle = load_puzzle(fname);
+  print_puzzle(puzzle);
   // part_one(puzzle);
   // part_two(puzzle);
 }
