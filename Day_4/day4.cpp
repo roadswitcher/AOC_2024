@@ -38,10 +38,25 @@ void print_puzzle(wordsearch puzzle){
   }
 }
 
-void part_one(){}
+void part_one(wordsearch puzzle, std::string str){
+  int num_found{0};
+  int strlength = str.length();
+  
+  // OK, this is how it's going down.
+  // - First, search for the word reading L->R
+  //   in each row starting at column 0, ending
+  //   at column (width - length of word)
+  // - Then, search by row for the word reading 
+  //   BACKWARDS, but starting at 0+length of word
+  // - Then, we do the diagonals but be mindful of
+  //   the edges compared to length of the word
+
+
+}
 
 int main() {
   std::string fname = "test_input.txt";
+  std::string str = "XMAS";
 
   wordsearch puzzle = load_puzzle(fname);
   print_puzzle(puzzle);
