@@ -5,10 +5,12 @@
 #include <string>
 #include <vector>
 
-std::vector<std::vector<char>> load_puzzle(std::string filename) {
+using wordsearch = std::vector<std::vector<char>>;
+
+wordsearch load_puzzle(std::string filename) {
   std::ifstream fs(filename);
   std::string line{};
-  std::vector<std::vector<char>> puzzle{};
+  wordsearch puzzle{};
   int width{0};
   int height{0};
 
@@ -27,7 +29,7 @@ std::vector<std::vector<char>> load_puzzle(std::string filename) {
   return puzzle;
 }
 
-void print_puzzle(std::vector<std::vector<char>> puzzle){
+void print_puzzle(wordsearch puzzle){
   for (size_t row=0; row<puzzle.size(); row++){
     for (size_t col=0; col<puzzle[row].size(); col++){
       std::cout << puzzle[row][col];
@@ -36,10 +38,12 @@ void print_puzzle(std::vector<std::vector<char>> puzzle){
   }
 }
 
+void part_one(){}
+
 int main() {
   std::string fname = "test_input.txt";
 
-  std::vector<std::vector<char>> puzzle = load_puzzle(fname);
+  wordsearch puzzle = load_puzzle(fname);
   print_puzzle(puzzle);
   // part_one(puzzle);
   // part_two(puzzle);
