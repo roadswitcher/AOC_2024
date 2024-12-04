@@ -49,6 +49,13 @@ void part_one(wordsearch puzzle, std::string str){
   // - Then, we do the diagonals but be mindful of
   //   the edges compared to length of the word
 
+  // search the *rows*
+
+  // search the *columns*
+
+  // search the *diagonals*
+
+
 
 }
 
