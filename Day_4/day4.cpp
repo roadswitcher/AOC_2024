@@ -4,6 +4,16 @@
 #include <string>
 #include <vector>
 
+// This was made as unnecessarily complex as I could make it.
+// This is NOT an example of how to do things.
+//
+// To quote the Simpsons character Moe Szylak from Season 16 Episode 19 "Thank God It's Doomsday"--
+// "I've done stuff I ain't proud of, and the stuff I am proud of is disgusting."
+//
+// Why would I do this?   
+// Mainly I wanted to see if I could get an LLM to refactor it into something more readable / less heinous.
+
+
 using wordsearch = std::vector<std::vector<char>>;
 
 wordsearch load_puzzle(std::string filename) {
@@ -183,17 +193,22 @@ void part_two(wordsearch puzzle) {
   int count{0};
   int height = puzzle.size();
   int width = puzzle[0].size();
-  char xmas_a = 'A';
+
+  std::string check1 = "MMSS";
+  std::string check2 = "MSSM";
+  std::string check3 = "SSMM";
+  std::string check4 = "SMMS";
 
   for (auto row = 1; row < height - 1; row++) {
     for (auto col = 1; col < width - 1; col++) {
-      if (puzzle[row][col] == xmas_a) {
-        auto tl = puzzle[row - 1][col - 1];
-        auto tr = puzzle[row - 1][col + 1];
-        auto bl = puzzle[row + 1][col - 1];
-        auto br = puzzle[row + 1][col + 1];
-        if ((br == bl && tr == tl) || (tl == bl && tr == br)) {
-          count += 1;
+      if (puzzle[row][col] == 'A') {
+        std::string checkstr;
+        checkstr += puzzle[row-1][col+1];
+        checkstr += puzzle[row+1][col+1];
+        checkstr += puzzle[row+1][col-1];
+        checkstr += puzzle[row-1][col-1];
+        if( (checkstr==check1)||(checkstr==check2)||(checkstr==check3)||(checkstr==check4)){
+          count+=1;
         }
       }
     }
