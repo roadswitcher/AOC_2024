@@ -16,7 +16,7 @@ wordsearch load_puzzle(std::string filename) {
   while (std::getline(fs, line)) {
     std::vector<char> row;
     width = line.length();
-    for (auto i = 0; i < line.length(); i++) {
+    for (size_t i = 0; i < line.length(); i++) {
       row.push_back(line[i]);
     }
     puzzle.push_back(row);
@@ -145,7 +145,6 @@ void part_one(wordsearch puzzle, std::string str) {
   std::string rev_str = str;
   std::reverse(rev_str.begin(), rev_str.end());
 
-  int strlength = str.length();
   int height = puzzle.size();
   int width = puzzle[0].size();
 
@@ -162,7 +161,7 @@ void part_one(wordsearch puzzle, std::string str) {
   // search the *columns*
   for (auto col = 0; col < width; col++) {
     std::string col_text;
-    for (auto row = 0; row < puzzle.size(); row++) {
+    for (size_t row = 0; row < puzzle.size(); row++) {
       col_text += puzzle[row][col];
     }
     num_found += count_occurrences(col_text, str);
