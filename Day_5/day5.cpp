@@ -5,10 +5,10 @@
 #include <unordered_map>
 #include <vector>
 
-// using page_order_rules = std::unordered_map<int, std::set<int>>;
-// using update_pages = std::vector<std::vector<int>>;
+using page_order_rules = std::unordered_map<int, std::set<int>>;
+using update_pages = std::vector<std::vector<int>>;
 
-std::pair<std::unordered_map<int, std::set<int>>, std::vector<std::vector<int>>>
+std::pair<page_order_rules, update_pages>
 load_file(const std::string &fname) {
 
   std::ifstream fs(fname);
@@ -38,7 +38,7 @@ load_file(const std::string &fname) {
 }
 
 bool pageset_is_valid(std::vector<int> update_pageset,
-                      std::unordered_map<int, std::set<int>> &rules) {
+                      page_order_rules &rules) {
   int idx = update_pageset.size() - 1;
   while (idx > 0) {
     std::set<int> checkvals = rules[update_pageset[idx]];
@@ -54,8 +54,8 @@ bool pageset_is_valid(std::vector<int> update_pageset,
   return true;
 }
 
-void part_one(std::unordered_map<int, std::set<int>> &rules,
-              std::vector<std::vector<int>> &updatesets) {
+void part_one(page_order_rules &rules,
+              update_pages &updatesets) {
 
   std::vector<std::vector<int>> valid_updates;
   int sum_of_middles{0};
@@ -75,8 +75,8 @@ int main() {
   // std::string fname = "test_input.txt";
   std::string fname = "input.txt";
 
-  std::unordered_map<int, std::set<int>> rules;
-  std::vector<std::vector<int>> updates;
+  page_order_rules rules;
+  update_pages updates;
 
   std::tie(rules, updates) = load_file(fname);
 
