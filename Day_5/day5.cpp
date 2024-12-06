@@ -8,8 +8,7 @@
 using page_order_rules = std::unordered_map<int, std::set<int>>;
 using update_pages = std::vector<std::vector<int>>;
 
-std::pair<page_order_rules, update_pages>
-load_file(const std::string &fname) {
+std::pair<page_order_rules, update_pages> load_file(const std::string &fname) {
 
   std::ifstream fs(fname);
   std::string line{};
@@ -54,8 +53,7 @@ bool pageset_is_valid(std::vector<int> update_pageset,
   return true;
 }
 
-update_pages part_one(page_order_rules &rules,
-              update_pages &updatesets) {
+update_pages part_one(page_order_rules &rules, update_pages &updatesets) {
   int valid_update_count{0};
   update_pages invalid_updates;
 
@@ -63,34 +61,40 @@ update_pages part_one(page_order_rules &rules,
 
   for (auto idx = 0; idx < updatesets.size(); idx++) {
     std::vector<int> update = updatesets[idx];
-    if(pageset_is_valid(update, rules)){
-      sum_of_middles += update[update.size()/2];
+    if (pageset_is_valid(update, rules)) {
+      sum_of_middles += update[update.size() / 2];
       valid_update_count++;
     } else {
       invalid_updates.push_back(update);
     }
   }
 
-  std::cout << "Part 1: " << sum_of_middles << " w/ " << valid_update_count << " valid updates\n";
+  std::cout << "Part 1: " << sum_of_middles << " w/ " << valid_update_count
+            << " valid updates\n";
   return invalid_updates;
 }
 
-void part_two(update_pages &invalid_pagesets, page_order_rules &rules){
+void part_two(update_pages &invalid_pagesets, page_order_rules &rules) {
   update_pages sorted_pagesets;
   int sum{0};
+  std::cout << "Invalid Pageset count: " << invalid_pagesets.size() << "\n";
 
-  for(size_t idx ; idx < invalid_pagesets.size(); idx++){
+  for (size_t idx = 0; idx < invalid_pagesets.size(); idx++) {
     std::vector<int> pageset = invalid_pagesets[idx];
-    std::cout << "idx : "<< idx << "\n";
-    do{
-      for(int num:pageset){
-        std::cout << num << " ";
+    bool not_valid = true;
+    // You can write Fortran in any language.
+    do {
+      not_valid = pageset_is_valid(pageset, rules);
+      if (pageset_is_valid(pageset, rules)) {
+        sum += pageset[pageset.size() / 2];
+        // for (int num : pageset) {
+        //   std::cout << num << " ";
+        // }
+        // std::cout << "\n";
       }
-      std::cout << " is a valid pageset: " << pageset_is_valid(pageset, rules) << "\n";
     } while (std::next_permutation(pageset.begin(), pageset.end()));
   }
-
-
+  std::cout << "Part 2: " << sum << "\n";
 }
 
 int main() {
@@ -103,6 +107,5 @@ int main() {
   std::cout << "Number of updates : " << updates.size() << "\n";
 
   update_pages bad_updates = part_one(rules, updates);
-  std::cout << "Number of bad updates: "<< bad_updates.size() << "\n";
   part_two(bad_updates, rules);
 }
