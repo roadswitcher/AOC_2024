@@ -54,33 +54,40 @@ bool pageset_is_valid(std::vector<int> update_pageset,
   return true;
 }
 
-void part_one(page_order_rules &rules,
+update_pages part_one(page_order_rules &rules,
               update_pages &updatesets) {
+  int valid_update_count{0};
+  update_pages invalid_updates;
 
-  std::vector<std::vector<int>> valid_updates;
   int sum_of_middles{0};
 
   for (auto idx = 0; idx < updatesets.size(); idx++) {
     std::vector<int> update = updatesets[idx];
     if(pageset_is_valid(update, rules)){
-      valid_updates.push_back(update);
       sum_of_middles += update[update.size()/2];
+      valid_update_count++;
+    } else {
+      invalid_updates.push_back(update);
     }
   }
 
-  std::cout << "Part 1: " << sum_of_middles << "\n";
+  std::cout << "Part 1: " << sum_of_middles << " w/ " << valid_update_count << " valid updates\n";
+  return invalid_updates;
+}
+
+void part_two(update_pages &invalid_pages, page_order_rules &rules){
+
+
 }
 
 int main() {
   // std::string fname = "test_input.txt";
   std::string fname = "input.txt";
-
   page_order_rules rules;
   update_pages updates;
 
   std::tie(rules, updates) = load_file(fname);
-
   std::cout << "Number of updates : " << updates.size() << "\n";
 
-  part_one(rules, updates);
+  update_pages bad_updates = part_one(rules, updates);
 }
