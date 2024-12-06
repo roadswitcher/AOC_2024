@@ -80,14 +80,6 @@ int main() {
 
   std::tie(rules, updates) = load_file(fname);
 
-  // for (const auto &[page, values] : rules) {
-  //   std::cout << page << "\n";
-  //   for (const auto &pg : values) {
-  //     std::cout << pg << " ";
-  //   }
-  //   std::cout << "\n";
-  // }
-
   std::cout << "Number of updates : " << updates.size() << "\n";
 
   part_one(rules, updates);
