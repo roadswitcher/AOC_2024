@@ -75,14 +75,27 @@ update_pages part_one(page_order_rules &rules,
   return invalid_updates;
 }
 
-void part_two(update_pages &invalid_pages, page_order_rules &rules){
+void part_two(update_pages &invalid_pagesets, page_order_rules &rules){
+  update_pages sorted_pagesets;
+  int sum{0};
+
+  for(size_t idx ; idx < invalid_pagesets.size(); idx++){
+    std::vector<int> pageset = invalid_pagesets[idx];
+    std::cout << "idx : "<< idx << "\n";
+    do{
+      for(int num:pageset){
+        std::cout << num << " ";
+      }
+      std::cout << " is a valid pageset: " << pageset_is_valid(pageset, rules) << "\n";
+    } while (std::next_permutation(pageset.begin(), pageset.end()));
+  }
 
 
 }
 
 int main() {
-  // std::string fname = "test_input.txt";
-  std::string fname = "input.txt";
+  std::string fname = "test_input.txt";
+  // std::string fname = "input.txt";
   page_order_rules rules;
   update_pages updates;
 
@@ -90,4 +103,6 @@ int main() {
   std::cout << "Number of updates : " << updates.size() << "\n";
 
   update_pages bad_updates = part_one(rules, updates);
+  std::cout << "Number of bad updates: "<< bad_updates.size() << "\n";
+  part_two(bad_updates, rules);
 }
