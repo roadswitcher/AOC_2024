@@ -41,7 +41,7 @@ bool pageset_is_valid(std::vector<int> update_pageset,
   int idx = update_pageset.size() - 1;
   while (idx > 0) {
     std::set<int> checkvals = rules[update_pageset[idx]];
-    for (size_t i = 0; i < idx; i++) {
+    for (int i = 0; i < idx; i++) {
       int num = update_pageset[i];
       bool found_in_rules = (checkvals.find(num) != checkvals.end());
       if (found_in_rules) {
@@ -59,7 +59,7 @@ update_pages part_one(page_order_rules &rules, update_pages &updatesets) {
 
   int sum_of_middles{0};
 
-  for (auto idx = 0; idx < updatesets.size(); idx++) {
+  for (size_t idx = 0; idx < updatesets.size(); idx++) {
     std::vector<int> update = updatesets[idx];
     if (pageset_is_valid(update, rules)) {
       sum_of_middles += update[update.size() / 2];
@@ -81,16 +81,20 @@ void part_two(update_pages &invalid_pagesets, page_order_rules &rules) {
 
   for (size_t idx = 0; idx < invalid_pagesets.size(); idx++) {
     std::vector<int> pageset = invalid_pagesets[idx];
-    bool not_valid = true;
+    std::cout << std::endl;
+    for (int num : pageset) {
+      std::cout << num << " ";
+    }
+    std::cout << std::endl;
     // You can write Fortran in any language.
     do {
-      not_valid = pageset_is_valid(pageset, rules);
       if (pageset_is_valid(pageset, rules)) {
         sum += pageset[pageset.size() / 2];
-        // for (int num : pageset) {
-        //   std::cout << num << " ";
-        // }
-        // std::cout << "\n";
+        std::cout << std::endl;
+        for (int num : pageset) {
+          std::cout << num << " ";
+        }
+        std::cout << std::endl;
       }
     } while (std::next_permutation(pageset.begin(), pageset.end()));
   }
@@ -98,8 +102,8 @@ void part_two(update_pages &invalid_pagesets, page_order_rules &rules) {
 }
 
 int main() {
-  std::string fname = "test_input.txt";
-  // std::string fname = "input.txt";
+  // std::string fname = "test_input.txt";
+  std::string fname = "input.txt";
   page_order_rules rules;
   update_pages updates;
 
