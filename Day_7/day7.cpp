@@ -27,7 +27,6 @@ calibration_list loader(const std::string &filename) {
     calibration_equation eqn;
 
     std::getline(iss, substring, ':');
-    std::cout << substring << std::endl;
     eqn.result = std::stoull(substring);
 
     uint64_t tmp{};
@@ -41,7 +40,7 @@ calibration_list loader(const std::string &filename) {
 }
 
 bool check_equation(calibration_equation &eqn) {
-  int result = eqn.terms[0];
+  uint64_t result = eqn.terms[0];
 
   for (size_t op = 0; op < eqn.operations.size(); op++) {
     if (eqn.operations[op] == '+') {
@@ -55,10 +54,8 @@ bool check_equation(calibration_equation &eqn) {
 
 void print_eqn(const calibration_equation &eqn) {
   int num_terms = eqn.terms.size();
-  int num_ops = eqn.operations.size();
   std::cout << eqn.result << ":";
   int term{0};
-  int op{0};
   while(term<=num_terms-2){
     std::cout << eqn.terms[term] << " " << eqn.operations[term] << " ";
     term+=1;
@@ -76,7 +73,7 @@ uint64_t sum_test_vals(const calibration_list& eqns){
 
 std::vector<std::vector<char>> computed_op_permutations(const int &num_ops) {
   std::vector<std::vector<char>> permutations(1 << num_ops);
-  for (unsigned long int i = 0; i < (1 << num_ops); i++) {
+  for (int i = 0; i < (1 << num_ops); i++) {
     std::string tmp = "";
     for (auto bit = 0; bit < num_ops; bit++) {
       char ch = (i & (1 << bit)) ? '*' : '+';
@@ -88,9 +85,9 @@ std::vector<std::vector<char>> computed_op_permutations(const int &num_ops) {
 
 void part_one(calibration_list &eqns) {
   calibration_list valid_eqns;
+  uint64_t sum{0};
 
   for (auto &eqn : eqns) {
-    // print_eqn(eqn);
     const int num_of_ops = eqn.terms.size() - 1;
     calibration_equation test_eqn;
     std::vector<std::vector<char>> permutations =
@@ -99,17 +96,18 @@ void part_one(calibration_list &eqns) {
     test_eqn.result = eqn.result;
     test_eqn.terms = eqn.terms;
 
-    for (int i = 0; i < permutations.size(); i++) {
+    for (size_t i = 0; i < permutations.size(); i++) {
       test_eqn.operations = permutations[i];
       bool validated = check_equation(test_eqn);
       if (validated) {
         print_eqn(test_eqn);
         valid_eqns.push_back(test_eqn);
+        sum+=test_eqn.result;
         break;
       }
     }
   }
-  std::cout << "Pt 1: Num valid eqns: " << valid_eqns.size() << " Sum of results: " << sum_test_vals(valid_eqns) << "\n";
+  std::cout << "Pt 1: Num valid eqns: " << valid_eqns.size() << " Sum of results: " << sum << "\n";
 }
 int main() {
   std::string fname = "input.txt";
