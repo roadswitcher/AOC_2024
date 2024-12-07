@@ -23,21 +23,15 @@ calibration_list loader(const std::string& filename){
     std::istringstream iss(line);
     std::string substring{};
     calibration_equation eqn;
-    std::vector<int> terms;
 
     std::getline(iss, substring, ':');
     eqn.result = std::stoi(substring);
-    std::cout << "result " << eqn.result << "\n";
     
-    while(std::getline(iss, substring, ',')){
-      std::cout << substring << " ";
-      int tmp = std::stoi(substring);
-      terms.push_back(tmp);
+    int tmp{};
+    while(iss>>tmp){
+      eqn.terms.push_back(tmp);
     }
-    std::cout << "\nterms size: " << terms.size() << std::endl;
-    // eqn.terms = std::copy(terms);
 
-    std::cout << "\n";
     list.push_back(eqn);
   }
   return list;
@@ -94,10 +88,10 @@ void part_one(calibration_list& eqns){
 int main(){
   std::string fname = "test_input.txt";
   calibration_list calibrations = loader(fname);
-  // for(auto eqn:calibrations){
-  //   std::cout << eqn.result <<"\n";
-  //   std::cout << eqn.terms.size() << "\n";
-  // }
+  for(auto eqn:calibrations){
+    std::cout << eqn.result <<"\n";
+    std::cout << eqn.terms.size() << "\n";
+  }
   // part_one(calibrations);
 
 }
