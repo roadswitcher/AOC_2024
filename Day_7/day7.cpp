@@ -42,13 +42,13 @@ calibration_list loader(const std::string &filename) {
 
 void print_eqn(const calibration_equation &eqn) {
   int num_terms = eqn.terms.size();
-  std::cout << eqn.result << ":";
+  std::cout << eqn.result << " : ";
   int term{0};
   while (term <= num_terms - 2) {
     std::cout << eqn.terms[term] << " " << eqn.operations[term] << " ";
     term += 1;
   }
-  std::cout << eqn.terms[num_terms - 1] << std::endl;
+  std::cout << eqn.terms[num_terms - 1] << std::endl;  
 }
 
 bool check_equation(calibration_equation &eqn) {
@@ -58,10 +58,7 @@ bool check_equation(calibration_equation &eqn) {
     auto next_term = eqn.terms[idx + 1];
     auto op = eqn.operations[idx];
     if (op == '|') { // concatentate this
-      std::string A = std::to_string(computed_sum);
-      std::string B = std::to_string(next_term);
-      std::string sum = A + B;
-      computed_sum = std::stoull(sum);
+      computed_sum = std::stoull(std::to_string(computed_sum) + std::to_string(next_term));
     }
     if (op == '*') {
       computed_sum *= next_term;
@@ -164,6 +161,7 @@ void part_two(calibration_list &eqns) {
     test_eqn.result = eqn.result;
     test_eqn.terms = eqn.terms;
     bool validated = false;
+
     for (size_t i = 0; i < binary_perms.size(); i++) {
       test_eqn.operations.clear();
       test_eqn.operations = binary_perms[i];
