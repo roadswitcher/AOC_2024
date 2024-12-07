@@ -1,3 +1,4 @@
+#include <cmath>
 #include <cstdint>
 #include <cstring>
 #include <fstream>
@@ -7,7 +8,6 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <cmath>
 
 struct calibration_equation {
   uint64_t result{};
