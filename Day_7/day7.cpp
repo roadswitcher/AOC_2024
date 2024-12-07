@@ -50,7 +50,18 @@ bool check_equation(calibration_equation &eqn) {
   return result == eqn.result;
 }
 
-vector<vector<char>> computed_op_permutations(const int &num_ops) {
+void print_eqn(const calibration_equation& eqn){
+  int num_terms = eqn.terms.size();
+  int num_ops = eqn.operations.size();
+  
+  std::cout << eqn.result << ":";
+  for(int i=0; i<num_terms; i++){
+    std::cout << eqn.terms[i] << " ";
+  }
+  std::cout << std::endl;
+}
+
+std::vector<std::vector<char>> computed_op_permutations(const int &num_ops) {
   std::vector<std::vector<char>> permutations(1 << num_ops);
 
   for (unsigned long int i = 0; i < (1 << num_ops); i++) {
@@ -67,12 +78,21 @@ void part_one(calibration_list &eqns) {
   calibration_list valid_eqns;
 
   for (auto &eqn : eqns) {
-    const int num_of_ops = eqn.terms.size();
-    calibration_equation test_eqn;
-    const vector<vector<char>> permutations = computed_op_permutations(num_of_ops);
+    print_eqn(eqn);
+    // const int num_of_ops = eqn.terms.size();
+    // calibration_equation test_eqn;
+    // std::vector<std::vector<char>> permutations = computed_op_permutations(num_of_ops);
 
-    test_eqn.result = eqn.result;
-    test_eqn.terms = eqn.terms;
+    // test_eqn.result = eqn.result;
+    // test_eqn.terms = eqn.terms;
+    // bool validated = false;
+    // do{
+    //   for( int i = 0; i < permutations.size(); i++ ){
+    //     test_eqn.operations=permutations[i];
+    //     print_eqn(test_eqn);
+    //     validated = check_equation(test_eqn);
+    //   }
+    // } while (!validated);
 
   }
   std::cout << "Pt 1: Num valid eqns: " << valid_eqns.size() << "\n";
