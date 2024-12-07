@@ -82,19 +82,19 @@ void part_two(update_pages &invalid_pagesets, page_order_rules &rules) {
   for (size_t idx = 0; idx < invalid_pagesets.size(); idx++) {
     std::vector<int> pageset = invalid_pagesets[idx];
     std::cout << std::endl;
-    for (int num : pageset) {
-      std::cout << num << " ";
-    }
-    std::cout << std::endl;
+
     // You can write Fortran in any language.
     do {
+      for (int num : pageset) {
+        std::cout << num << " ";
+      }
+      std::cout << std::endl;
       if (pageset_is_valid(pageset, rules)) {
         sum += pageset[pageset.size() / 2];
-        std::cout << std::endl;
         for (int num : pageset) {
           std::cout << num << " ";
         }
-        std::cout << std::endl;
+        std::cout << "Is valid" << std::endl;
       }
     } while (std::next_permutation(pageset.begin(), pageset.end()));
   }
@@ -102,8 +102,8 @@ void part_two(update_pages &invalid_pagesets, page_order_rules &rules) {
 }
 
 int main() {
-  // std::string fname = "test_input.txt";
-  std::string fname = "input.txt";
+  std::string fname = "test_input.txt";
+  // std::string fname = "input.txt";
   page_order_rules rules;
   update_pages updates;
 
