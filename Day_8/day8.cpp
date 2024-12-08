@@ -62,9 +62,33 @@ void print_map(const map_grid &map){
   }
 }
 
-std::vector<tower_pair> find_pairs(const map_grid &map){
+std::vector<tower_pair> find_pairs(const std::vector<coord> locations){
+  std::vector<tower_pair> pairs;
+  // given a vector of locations of a specific type/freq, return vector of all the pairs
+  for (size_t i = 0; i < locations.size(); i++){
+    for(size_t j= 0; j < locations.size(); j++){
+      pairs.push_back({locations[i], locations[j]});
+    }
+  }
 
+  return pairs;
 }
+
+std::vector<std::pair<coord, coord>> get_coordinate_pairs(const std::vector<coord>& coordinates) {
+    std::vector<std::pair<coord, coord>> result;
+
+    // Iterate over each unique pair of coordinates
+    for (size_t i = 0; i < coordinates.size(); ++i) {
+        for (size_t j = i + 1; j < coordinates.size(); ++j) {
+            result.push_back({coordinates[i], coordinates[j]});
+        }
+    }
+
+    return result;
+}
+
+
+
 
 std::pair<coord, coord> find_antinodes(const tower_pair &towerpair ){
 
