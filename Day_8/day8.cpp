@@ -1,17 +1,17 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <unordered_set>
 #include <vector>
-
-using map_grid = std::vector<std::vector<char>>;
-using tower_pair = std::pair<coord,coord>;
 
 struct coord {
   int y{};
   int x{};
   char type{};
 };
+
+using map_grid = std::vector<std::vector<char>>;
+using tower_pair = std::pair<coord,coord>;
+
 
 map_grid loadfile(const std::string &filename) {
   map_grid resulting_map;
@@ -75,6 +75,8 @@ void part_one(map_grid &map) {
   // - Find all the towers coords and freqs
   auto tower_list = find_locations(map);
   // - Pass that info to a function that builds lists of 'pairs'
+  // auto tower_pairs = find_pairs(tower_list);
+
   // - write a function that computes antinode locations per pair
   // final steps:
   // - for each pair, record antinode locations on a map, no worry about overwrites
