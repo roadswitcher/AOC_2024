@@ -85,7 +85,7 @@ std::vector<tower_pair> find_pairs(const std::vector<coord> locations) {
   // given a vector of locations of a specific type, return vector of all the
   // pairs
   for (size_t i = 0; i < locations.size(); i++) {
-    for (size_t j = i+1; j < locations.size(); j++) {
+    for (size_t j = i + 1; j < locations.size(); j++) {
       pairs.push_back({locations[i], locations[j]});
     }
   }
@@ -93,7 +93,8 @@ std::vector<tower_pair> find_pairs(const std::vector<coord> locations) {
   return pairs;
 }
 
-std::vector<coord> process_antinodes(const tower_pair &towerpair, map_grid &map) {
+std::vector<coord> process_antinodes(const tower_pair &towerpair,
+                                     map_grid &map) {
   int cols = map[0].size();
   int rows = map.size();
   auto a = std::move(towerpair.first);
@@ -105,47 +106,42 @@ std::vector<coord> process_antinodes(const tower_pair &towerpair, map_grid &map)
   a.y = a.y - dy;
   b.x = b.x + dx;
   b.y = b.y + dy;
-  if( a.x >= 0 && a.x < cols && a.y >= 0 && a.y < rows ) {
+  if (a.x >= 0 && a.x < cols && a.y >= 0 && a.y < rows) {
     antinodes.push_back(a);
-      // std::cout << "A x/y " << a.x << "/" << a.y << "\n";
+    // std::cout << "A x/y " << a.x << "/" << a.y << "\n";
   }
-  if( b.x >= 0 && b.x < cols && b.y >= 0 && b.y < rows ) {
+  if (b.x >= 0 && b.x < cols && b.y >= 0 && b.y < rows) {
     antinodes.push_back(b);
-      // std::cout << "B x/y " << b.x << "/" << b.y << "\n";
+    // std::cout << "B x/y " << b.x << "/" << b.y << "\n";
   }
   return antinodes;
 }
 
-std::vector<coord> process_antinodes_part_two(const tower_pair &towerpair, map_grid &map) {
+std::vector<coord> process_antinodes_part_two(const tower_pair &towerpair,
+                                              map_grid &map) {
   int cols = map[0].size();
   int rows = map.size();
   auto a = std::move(towerpair.first);
   auto b = std::move(towerpair.second);
+  int dx = towerpair.second.x - towerpair.first.x;
+  int dy = towerpair.second.y - towerpair.first.y;
 
   std::vector<coord> antinodes;
-  int dx = b.x - a.x;
-  int dy = b.y - a.y;
-
-  a.x = a.x - dx;
-  a.y = a.y - dy;
-  b.x = b.x + dx;
-  b.y = b.y + dy;
-
-  while(a.x >= 0 && a.x < cols && a.y >= 0 && a.y < rows){
+  // process a->b direction till out of bounds
+  while (a.x >= 0 && a.x < cols && a.y >= 0 && a.y < rows) {
     antinodes.push_back(a);
     a.x -= dx;
     a.y -= dy;
   }
 
-  while(b.x >= 0 && b.x < cols && b.y >= 0 && b.y < rows){
+  // process b->a direction till out of bounds
+  while (b.x >= 0 && b.x < cols && b.y >= 0 && b.y < rows) {
     antinodes.push_back(b);
-    b.x -= dx;
-    b.y -= dy;
+    b.x += dx;
+    b.y += dy;
   }
-
   return antinodes;
 }
-
 
 void part_one(map_grid &map) {
   // We know we have N towers of M different frequencies
@@ -154,23 +150,24 @@ void part_one(map_grid &map) {
   auto freqs = get_the_types(tower_list);
   map_grid antinode_map(map.size(), std::vector<char>(map[0].size(), '.'));
 
-  
   for (auto freq : freqs) {
     // - Pass that info to a function that builds lists of 'pairs'
-    std::vector<tower_pair> tower_pairs = find_pairs(filtered_coords(tower_list, freq));
-    // std::cout << "There are " << tower_pairs.size() << " pairs on freq " << freq << std::endl;
+    std::vector<tower_pair> tower_pairs =
+        find_pairs(filtered_coords(tower_list, freq));
+    // std::cout << "There are " << tower_pairs.size() << " pairs on freq " <<
+    // freq << std::endl;
     // - write a function that processes antinode locations per pair
-    for (auto pair : tower_pairs){
+    for (auto pair : tower_pairs) {
       auto antinodes = process_antinodes(pair, antinode_map);
-      for (auto antinode : antinodes){
-        antinode_map[antinode.y][antinode.x]='#';
+      for (auto antinode : antinodes) {
+        antinode_map[antinode.y][antinode.x] = '#';
       }
     }
   }
   print_map(antinode_map);
   // - count antinodes on the map
-  std::cout << "Pt 1 Number of antinodes: " << find_locations(antinode_map).size() << std::endl;
-  
+  std::cout << "Pt 1 Number of antinodes: "
+            << find_locations(antinode_map).size() << std::endl;
 }
 
 void part_two(map_grid &map) {
@@ -180,30 +177,32 @@ void part_two(map_grid &map) {
   auto freqs = get_the_types(tower_list);
   map_grid antinode_map(map.size(), std::vector<char>(map[0].size(), '.'));
 
-  
   for (auto freq : freqs) {
     // - Pass that info to a function that builds lists of 'pairs'
-    std::vector<tower_pair> tower_pairs = find_pairs(filtered_coords(tower_list, freq));
-    // std::cout << "There are " << tower_pairs.size() << " pairs on freq " << freq << std::endl;
+    std::vector<tower_pair> tower_pairs =
+        find_pairs(filtered_coords(tower_list, freq));
+    // std::cout << "There are " << tower_pairs.size() << " pairs on freq " <<
+    // freq << std::endl;
     // - write a function that processes antinode locations per pair
-    for (auto pair : tower_pairs){
+    for (auto pair : tower_pairs) {
       auto antinodes = process_antinodes_part_two(pair, antinode_map);
-      for (auto antinode : antinodes){
-        antinode_map[antinode.y][antinode.x]='#';
+      for (auto antinode : antinodes) {
+        antinode_map[antinode.y][antinode.x] = '#';
       }
     }
   }
   print_map(antinode_map);
+
   // - count antinodes on the map
-  std::cout << "Pt 2 Number of antinodes: " << find_locations(antinode_map).size() << std::endl;
-  
+  std::cout << "Pt 2 Number of antinodes: "
+            << find_locations(antinode_map).size() << std::endl;
 }
 int main() {
-  std::string fname = "test_input.txt";
+  // std::string fname = "test_input.txt";
+  // std::string fname = "test_pt2.txt";
+  std::string fname = "input.txt";
 
   map_grid map = loadfile(fname);
-
-  // print_map(map);
 
   part_one(map);
   part_two(map);
