@@ -86,7 +86,7 @@ std::vector<tower_pair> find_pairs(const std::vector<coord> locations) {
   // given a vector of locations of a specific type, return vector of all the
   // pairs
   for (size_t i = 0; i < locations.size(); i++) {
-    for (size_t j = 0; j < locations.size(); j++) {
+    for (size_t j = i+1; j < locations.size(); j++) {
       pairs.push_back({locations[i], locations[j]});
     }
   }
