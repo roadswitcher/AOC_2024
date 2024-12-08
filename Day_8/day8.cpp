@@ -49,7 +49,17 @@ std::vector<coord> find_towers(const map_grid &map) {
   return tower_list;
 }
 
+void print_map(const map_grid &map){
+  int rows = map.size();
+  int cols = map[0].size();
 
+  for (size_t row = 0; row < map.size(); row++) {
+    for (size_t col = 0; col < map[0].size(); col++) {
+      std::cout << map[row][col] << " ";
+    }
+    std::cout << std::endl;
+  }
+}
 
 
 void part_one(map_grid &lab_map) {
@@ -59,17 +69,11 @@ int main() {
   std::string fname = "test_input.txt";
 
   map_grid the_map = loadfile(fname);
-  std::cout << the_map.size() << std::endl;
-  std::cout << the_map[1].size() << std::endl;
+  std::cout << "rows " << the_map.size() << std::endl;
+  std::cout << "cols " << the_map[1].size() << std::endl;
 
-  for (size_t row = 0; row < the_map.size(); row++) {
-    for (size_t col = 0; col < the_map[0].size(); col++) {
-      std::cout << the_map[row][col] << " ";
-    }
-    std::cout << std::endl;
-  }
-  auto list = find_towers(the_map);
-  std::cout << list.size() << std::endl;
+  print_map(the_map);
+  
 
   part_one(the_map);
 }
