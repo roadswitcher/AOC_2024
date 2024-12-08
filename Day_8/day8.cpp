@@ -61,10 +61,18 @@ void print_map(const map_grid &map){
   }
 }
 
-
 void part_one(map_grid &lab_map) {
-  // antinode count
+  // We know we have N towers of M different frequencies
+  // - Find all the towers coords and freqs
+  // - Pass that info to a function that builds lists of 'pairs'
+  // - write a function that computes antinode locations per pair
+  // final steps:
+  // - for each pair, record antinode locations on a map, no worry about overwrites
+  // - count antinodes on the map
+  
 }
+
+
 int main() {
   std::string fname = "test_input.txt";
 
