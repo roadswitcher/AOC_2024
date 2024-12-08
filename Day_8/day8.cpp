@@ -116,6 +116,36 @@ std::vector<coord> process_antinodes(const tower_pair &towerpair, map_grid &map)
   return antinodes;
 }
 
+std::vector<coord> process_antinodes_part_two(const tower_pair &towerpair, map_grid &map) {
+  int cols = map[0].size();
+  int rows = map.size();
+  auto a = std::move(towerpair.first);
+  auto b = std::move(towerpair.second);
+
+  std::vector<coord> antinodes;
+  int dx = b.x - a.x;
+  int dy = b.y - a.y;
+
+  a.x = a.x - dx;
+  a.y = a.y - dy;
+  b.x = b.x + dx;
+  b.y = b.y + dy;
+
+  while(a.x >= 0 && a.x < cols && a.y >= 0 && a.y < rows){
+    antinodes.push_back(a);
+    a.x -= dx;
+    a.y -= dy;
+  }
+
+  while(b.x >= 0 && b.x < cols && b.y >= 0 && b.y < rows){
+    antinodes.push_back(b);
+    b.x -= dx;
+    b.y -= dy;
+  }
+
+  return antinodes;
+}
+
 
 void part_one(map_grid &map) {
   // We know we have N towers of M different frequencies
@@ -139,16 +169,42 @@ void part_one(map_grid &map) {
   }
   print_map(antinode_map);
   // - count antinodes on the map
-  std::cout << "Number of antinodes: " << find_locations(antinode_map).size() << std::endl;
+  std::cout << "Pt 1 Number of antinodes: " << find_locations(antinode_map).size() << std::endl;
   
 }
 
+void part_two(map_grid &map) {
+  // We know we have N towers of M different frequencies
+  // - Find all the towers coords and freqs, and determine # of freqs
+  auto tower_list = find_locations(map);
+  auto freqs = get_the_types(tower_list);
+  map_grid antinode_map(map.size(), std::vector<char>(map[0].size(), '.'));
+
+  
+  for (auto freq : freqs) {
+    // - Pass that info to a function that builds lists of 'pairs'
+    std::vector<tower_pair> tower_pairs = find_pairs(filtered_coords(tower_list, freq));
+    // std::cout << "There are " << tower_pairs.size() << " pairs on freq " << freq << std::endl;
+    // - write a function that processes antinode locations per pair
+    for (auto pair : tower_pairs){
+      auto antinodes = process_antinodes_part_two(pair, antinode_map);
+      for (auto antinode : antinodes){
+        antinode_map[antinode.y][antinode.x]='#';
+      }
+    }
+  }
+  print_map(antinode_map);
+  // - count antinodes on the map
+  std::cout << "Pt 2 Number of antinodes: " << find_locations(antinode_map).size() << std::endl;
+  
+}
 int main() {
-  std::string fname = "input.txt";
+  std::string fname = "test_input.txt";
 
   map_grid map = loadfile(fname);
 
   // print_map(map);
 
   part_one(map);
+  part_two(map);
 }
