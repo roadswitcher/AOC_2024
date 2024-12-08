@@ -9,7 +9,7 @@ using map_grid = std::vector<std::vector<char>>;
 struct coord {
   int y{};
   int x{};
-  char dir{};
+  char freq{};
 };
 
 map_grid loadfile(const std::string &filename) {
@@ -28,29 +28,32 @@ map_grid loadfile(const std::string &filename) {
   return resulting_map;
 }
 
-coord where_is_guard(const map_grid &map) {
+std::vector<coord> find_towers(const map_grid &map) {
   int width = map[0].size();
   int height = map.size();
-  std::unordered_set<char> guard_facing = {'^', '>', '<', 'v'};
-  coord guard_location{};
+  std::vector<coord> tower_list{};
 
   for (auto row = 0; row < width; row++) {
     for (auto col = 0; col < height; col++) {
-      char ch = map[row][col];
-      if (ch == '^' || ch == 'v' || ch == '>' || ch == '<') {
-        guard_location.y = row;
-        guard_location.x = col;
-        guard_location.dir = ch;
-        return guard_location;
+      char freq = map[row][col];
+      if (freq != '.') {
+        // Found a tower
+        coord tower_coord;
+        tower_coord.freq = freq;
+        tower_coord.x = col;
+        tower_coord.y = row;
+        tower_list.emplace_back(tower_coord);
       }
     }
   }
-  return guard_location;
+  return tower_list;
 }
 
 
+
+
 void part_one(map_grid &lab_map) {
-  // where is guard
+  // antinode count
 }
 int main() {
   std::string fname = "test_input.txt";
@@ -65,7 +68,8 @@ int main() {
     }
     std::cout << std::endl;
   }
-
+  auto list = find_towers(the_map);
+  std::cout << list.size() << std::endl;
 
   part_one(the_map);
 }
