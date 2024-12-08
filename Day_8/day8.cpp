@@ -76,7 +76,6 @@ std::vector<coord> filtered_coords(const std::vector<coord> &coords,
   for (auto &coord : coords) {
     if (coord.type == type)
       filtered_result.push_back(coord);
-      std::cout << "Type: " << coord.type << " matches type " << type << " row/col " << coord.y << "/"<< coord.x << "\n";
   }
   return filtered_result;
 }
@@ -94,25 +93,33 @@ std::vector<tower_pair> find_pairs(const std::vector<coord> locations) {
   return pairs;
 }
 
-std::pair<coord, coord> find_antinodes(const tower_pair &towerpair) {}
+// std::pair<coord, coord> find_antinodes(const tower_pair &towerpair) {}
+void record_antinodes(const tower_pair &pair, map_grid antinode_map){
+  coord antinode_one;
+  coord antinode_two;
+  int map_rows = antinode_map.size();
+  int map_cols = antinode_map[0].size();
+  int delta_rows = pair.second.y - pair.first.y;
+  int delta_cols = pair.second.x - pair.first.x;
+  
+}
 
 void part_one(map_grid &map) {
   // We know we have N towers of M different frequencies
   // - Find all the towers coords and freqs, and determine # of freqs
   auto tower_list = find_locations(map);
   auto freqs = get_the_types(tower_list);
-  map_grid antinode_tracker(map.size(), std::vector<char>(map[0].size(), '.'));
-  std::vector<tower_pair> tower_pairs;
+  map_grid antinode_map(map.size(), std::vector<char>(map[0].size(), '.'));
+
+  
   for (auto freq : freqs) {
     // - Pass that info to a function that builds lists of 'pairs'
-    tower_pairs.clear();
-    tower_pairs = find_pairs(filtered_coords(tower_list, freq));
+    std::vector<tower_pair> tower_pairs = find_pairs(filtered_coords(tower_list, freq));
     std::cout << "There are " << tower_pairs.size() << " pairs on freq " << freq << std::endl;
-    for (auto pair:tower_pairs){
-      std::cout << "Pair 1 " << pair.first.x << "/" <<pair.first.y << "   "<< pair.second.x << "/" <<pair.second.y << std::endl;
-    }
-
     // - write a function that computes antinode locations per pair
+    for (auto pair : tower_pairs){
+      record_antinodes(pair, antinode_map);
+    }
     // final steps:
     // - for each pair, record antinode locations on a map, no worry about
     // overwrites
