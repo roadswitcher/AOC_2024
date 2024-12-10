@@ -18,7 +18,7 @@ void add_space(const int &size, block_fs &filesystem) {
 }
 
 void print_fs(const block_fs &filesystem) {
-  for (int blk = 0; blk <= filesystem.size(); blk++) {
+  for (size_t blk = 0; blk <= filesystem.size(); blk++) {
     if (filesystem[blk] > -1) {
       std::cout << filesystem[blk];
     } else {
@@ -31,9 +31,8 @@ void print_fs(const block_fs &filesystem) {
 bool process_free_space(block_fs &filesystem) {
   int leftmost_empty = -1;
   int rightmost_nonempty = -1;
-  bool not_done = true;
 
-  for (int i = 0; i < filesystem.size(); i++) {
+  for (size_t i = 0; i < filesystem.size(); i++) {
     if (filesystem[i] == -1) {
       leftmost_empty = i;
       break;
@@ -62,7 +61,7 @@ bool process_free_space(block_fs &filesystem) {
 long int compute_checksum(const block_fs &filesystem){
   long int checksum{0};
 
-  for(int blk=0; blk<filesystem.size(); blk++){
+  for(size_t blk=0; blk<filesystem.size(); blk++){
     if(filesystem[blk]>0){
       checksum += ( blk * filesystem[blk] );
     }
