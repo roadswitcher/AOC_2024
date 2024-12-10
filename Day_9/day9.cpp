@@ -54,16 +54,11 @@ bool process_free_space(block_fs &filesystem) {
     return false;
   }
 
-  // print_fs(filesystem);
+  print_fs(filesystem);
 
   return true;
 }
 
-void process_files(block_fs &filesystem){
-  leftpos = -1;
-  rightpos = -1;
-  
-}
 long int compute_checksum(const block_fs &filesystem){
   long int checksum{0};
 
@@ -103,38 +98,8 @@ void part_one(std::string fname) {
   std::cout << "Pt 1 checksum: " << compute_checksum(filesystem) << std::endl;
 }
 
-void part_two(std::string fname) {
-  std::ifstream fs(fname);
-  block_fs filesystem;
-  int block = 0;
-  int file_id=0;
-  char ch;
-  while (fs.get(ch)) {
-    int size = ch - '0';
-    if (block % 2 == 0) {
-      add_file(size, file_id, filesystem);
-    } else {
-      add_space(size, filesystem);
-    }
-    block++;
-  }
-
-  print_fs(filesystem);
-
-  bool not_done = true;
-  while (not_done) {
-    not_done = process_free_space(filesystem);
-  }
-
-  print_fs(filesystem);
-
-  std::cout << "Pt 1 checksum: " << compute_checksum(filesystem) << std::endl;
-
-
-}
-
 int main() {
   std::string fname = "test_input.txt";
   part_one(fname);
-  part_two(fname);
+//  part_two(fname);
 }
